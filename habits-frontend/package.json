@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
-    "preact": "^10.16.0"
+    "preact": "^10.16.0",
+    "styled-components": "^6.0.8"
   },
   "devDependencies": {
     "@preact/preset-vite": "^2.5.0",

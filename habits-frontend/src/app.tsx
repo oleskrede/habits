@@ -1,5 +1,6 @@
 import { Habits } from './components/Habits';
 import { Loader } from './components/Loader';
+import { Navbar } from './components/Navbar';
 import { getIdFromUrlPath, randomId } from './utils/utils';
 
 
@@ -11,6 +12,9 @@ export function App() {
     return <Loader />
   }
 
-  return <Habits id={id} />
+  return <div>
+    <Navbar />
+    <Habits id={id} />
+  </div>
 
 }

@@ -1,30 +1,20 @@
-import Lenke from "./Lenke"
+import styled from "styled-components"
+import { IconButton } from "./IconButton"
 
+const NavbarWrapper = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+`
 
-function Navbar() {
+export function Navbar() {
   return (
-    <div
-      style={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: '5rem',
-        flexWrap: 'wrap',
-      }}
-    >
-      <div style={{ display: 'flex', flex: '1', flexWrap: 'wrap' }}>
-        <Lenke url="/" text="Strømpriser" style={{ marginRight: '1rem' }} />
-        <Lenke
-          url="/varsel"
-          text="Prisvarsel"
-          style={{ marginRight: '1rem' }}
-        />
-      </div>
-      <a href="/sign-in" style={{ flexShrink: '0' }}>
-        Logg inn
-      </a>
-    </div>
+    <NavbarWrapper>
+      <div style={{ margin: '1rem', fontSize: '1.3rem' }} ><strong>Habits</strong></div>
+      <div style={{ flexShrink: '0', margin: '1rem' }}><IconButton /></div>
+    </NavbarWrapper>
   )
 }
-
-export default Navbar
