@@ -5,4 +5,7 @@
 - [ ] Host frontend from Ktor backend
 - [ ] Dockerfile
 - [ ] Deploy
-- [ ] Implement a colorscheme
+- [ ] Add habit
+- [ ] Complete habit
+- [ ] Remove habit
+- [ ] See past completions

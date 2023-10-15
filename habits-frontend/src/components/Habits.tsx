@@ -1,9 +1,10 @@
-import { CheckCircleIcon, Cog6ToothIcon, PlusCircleIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState } from "preact/hooks";
 import { Page } from '../types/Types';
 import { fetchPage } from '../utils/rest';
-import Icon from './Icon';
+import { IconButton } from './IconButton';
 import { Loader } from './Loader';
+import { HabitRow } from './HabitRow';
 
 type Props = {
   id: string
@@ -29,11 +30,9 @@ export function Habits({ id }: Props) {
 
   return (
     <div>
-      <div style={{ margin: "1rem 1rem" }}>__________ Day picker goes here __________</div>
-
       {page.habits.map((habit, index) => (
         <div key={index} style={{ display: "flex" }}>
-          <button><Icon><CheckCircleIcon /></Icon></button><p>{habit.name}</p>
+          <HabitRow name={habit.name} />
         </div>
       ))}
     </div>

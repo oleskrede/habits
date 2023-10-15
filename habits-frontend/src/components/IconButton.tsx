@@ -1,23 +1,27 @@
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import Icon from "./Icon";
 import styled from "styled-components";
+import Icon from "./Icon";
+import { VNode } from "preact";
 
 
 const IconButtonWrapper = styled.button`
     background-color: transparent;
     border: none;
-    color: red; 
+    color: #1D5B79; 
     cursor: pointer;
     &:hover {
-        color: darkred; 
+        color: #468B97; 
     }
 `
 
-export function IconButton() {
+type Props = {
+    icon: VNode
+}
+
+export function IconButton({icon}: Props) {
     return (
         <IconButtonWrapper>
             <Icon>
-                <PlusCircleIcon />
+                {icon}
             </Icon>
         </IconButtonWrapper>
     )
