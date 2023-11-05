@@ -8,5 +8,7 @@ export interface Page {
 export interface Habit {
     id: string
     name: string
-    completions: Date[]
+    currentStreak: number
+    lastCompleted: Date | undefined
+    completedToday: boolean
 }

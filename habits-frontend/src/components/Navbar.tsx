@@ -1,22 +1,27 @@
 import styled from "styled-components"
-import { IconButton } from "./IconButton"
-import { ArrowTrendingUpIcon, PlusCircleIcon } from "@heroicons/react/24/solid"
 
 const NavbarWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
   flex-wrap: wrap;
+`
+
+const Title = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
 `
 
 export function Navbar() {
   return (
     <NavbarWrapper>
-      <div style={{ margin: '1rem', fontSize: '1.3rem' }} ><strong>Habits</strong></div>
-      <div style={{ flexShrink: '0', margin: '1rem' }}>
-        <IconButton icon={<ArrowTrendingUpIcon />} />
-        <IconButton icon={<PlusCircleIcon />} />
+      <Title>
+        <strong>Habits</strong>
+        </Title>
+      <div style={{ margin: '1rem', display: 'flex', gap: '1.5rem' }}>
+        <strong>Edit</strong>
       </div>
     </NavbarWrapper>
   )
