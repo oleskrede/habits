@@ -1,45 +1,34 @@
 package com.example.habits
 
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.jetbrains.exposed.sql.*
 
-fun Route.habitsApi(pageRepository: PageRepository) {
+fun Route.habitsApi(habitsService: HabitsService) {
     route("/habits") {
         get {
             // Send user to a new instance
-            call.respondRedirect("/habits/${Page.newId()}")
+            call.respondRedirect("/habits/${randomId()}")
         }
 
 
         get("/{id}") {
-            val id = call.parameters["id"] ?: throw IllegalArgumentException("Invalid ID")
-            val page = pageRepository.read(id) ?: examplePage(id)
+            val id = Id(call.parameters["id"] ?: throw IllegalArgumentException("Invalid ID"))
+            val page = habitsService.getPage(id)
             call.respond(page)
         }
 
-
-        put("/{id}") {
-            val id = call.parameters["id"] ?: throw IllegalArgumentException("Invalid ID")
-            val page = call.receive<Page>()
-            pageRepository.update(page)
-            call.respond(HttpStatusCode.OK)
-        }
-
-        // Delete user
-        delete("/users/{id}") {
-            // TODO: Replace with some form of garbage collection
-            val id = call.parameters["id"] ?: throw IllegalArgumentException("Invalid ID")
-            pageRepository.delete(id)
-            call.respond(HttpStatusCode.OK)
+        // Complete task
+        post("/complete-habit") {
+            val dto = call.receive<CompleteHabitDto>()
+            val page = habitsService.completeHabit(Id(dto.pageId), Id(dto.habitId))
+            call.respond(page)
         }
     }
 }
 
-private fun examplePage(id: String) = Page(
-    id = id,
-    habits = listOf(Habit(name = "Clean"), Habit(name = "Exercise"))
+data class CompleteHabitDto(
+    val pageId: String,
+    val habitId: String,
 )

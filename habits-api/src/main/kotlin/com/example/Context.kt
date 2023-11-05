@@ -1,6 +1,7 @@
 package com.example
 
-import com.example.habits.PageRepository
+import com.example.habits.HabitsService
+import com.example.habits.HabitsRepository
 import org.jetbrains.exposed.sql.Database
 
 class Context {
@@ -12,5 +13,6 @@ class Context {
         password = config.dbPassword,
     )
 
-    val pageRepository = PageRepository(database)
+    val habitsRepository = HabitsRepository(database)
+    val habitsService = HabitsService(habitsRepository)
 }

@@ -20,6 +20,7 @@ fun Application.module() {
 }
 
 fun Application.configureKtor() {
+    configureStatusPages()
     configureSerialization()
     configureMonitoring()
     configureHTTP()
@@ -37,7 +38,7 @@ fun Application.setupRoutes() {
     val ctx = Context()
 
     routing {
-        habitsApi(ctx.pageRepository)
+        habitsApi(ctx.habitsService)
     }
 }
 
