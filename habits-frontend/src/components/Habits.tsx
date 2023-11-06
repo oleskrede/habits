@@ -1,49 +1,25 @@
-import { useEffect, useState } from "preact/hooks";
-import { Habit, Page } from '../types/Types';
-import { fetchPage, sendHabitCompleted } from '../utils/rest';
-import { HabitRow } from './HabitRow';
-import { Loader } from './Loader';
-import { CompletedHabitRow } from "./CompletedHabitRow";
 import styled from "styled-components";
+import { HabitsData } from '../types/Types';
+import { sendHabitCompleted } from '../utils/rest';
+import { CompletedHabitRow } from "./CompletedHabitRow";
+import { UncompletedHabitRow } from './UncompletedHabitRow';
 
 type Props = {
-  id: string
+  habitsData: HabitsData
+  setHabitsData: (habitsData: HabitsData) => void
 }
 
-export function Habits({ id }: Props) {
-  const [page, setPage] = useState<Page | undefined>(undefined)
-  const [completedHabits, setCompletedHabits] = useState<Habit[]>([])
-  const [uncompletedHabits, setUncompletedHabits] = useState<Habit[]>([])
+export function Habits({ habitsData, setHabitsData }: Props) {
 
-  useEffect(() => {
-    fetchPage(id)
-      .then((data: Page) => {
-        setPage(data);
-      })
-      .catch((error) => {
-        // TODO show error to user, and try to log the incident
-        console.error('Error fetching user data:', error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (page) {
-      const completed = page.habits.filter(habit => habit.completedToday)
-      const uncompleted = page.habits.filter(habit => !habit.completedToday)
-      setCompletedHabits(completed);
-      setUncompletedHabits(uncompleted);
-    }
-  }, [page])
-
-  if (!page) {
-    return <Loader />
-  }
+  const completed = habitsData.habits.filter(habit => habit.completedToday)
+  const uncompleted = habitsData.habits.filter(habit => !habit.completedToday)
 
   const completeHabit = async (habitId: string) => {
     console.log('completed habit', habitId)
-    sendHabitCompleted(id, habitId)
-      .then((data: Page) => {
-        setPage(data);
+    sendHabitCompleted(habitsData.id, habitId)
+      .then((data: HabitsData) => {
+        console.log('habitsdata', data)
+        setHabitsData(data);
       })
       .catch((error) => {
         // TODO show a proper error to user, and try to log the incident
@@ -54,13 +30,13 @@ export function Habits({ id }: Props) {
 
   return (
     <div>
-      {uncompletedHabits.map((habit, index) => (
+      {uncompleted.map((habit, index) => (
         <div key={index}>
-          <HabitRow habit={habit} completeHabit={completeHabit} />
+          <UncompletedHabitRow habit={habit} completeHabit={completeHabit} />
         </div>
       ))}
       <CompletedLabel>Completed today:</CompletedLabel>
-      {completedHabits.map((habit, index) => (
+      {completed.map((habit, index) => (
         <div key={index}>
           <CompletedHabitRow habit={habit} />
         </div>
@@ -70,5 +46,5 @@ export function Habits({ id }: Props) {
 }
 
 const CompletedLabel = styled.p`
-  margin-top: 4rem;
+  margin-top: 3rem;
 `

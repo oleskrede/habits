@@ -14,3 +14,19 @@ body {
   margin: .5rem;
   padding: 1rem;
 }
+
+button {
+  background: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+button:hover {
+  color: darkgrey;
+}

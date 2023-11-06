@@ -1,7 +1,7 @@
 
 
-export interface Page {
-    id: number
+export interface HabitsData {
+    id: string
     habits: Habit[]
 }
 
@@ -11,4 +11,8 @@ export interface Habit {
     currentStreak: number
     lastCompleted: Date | undefined
     completedToday: boolean
+}
+
+export enum Page {
+    MAIN, EDIT
 }

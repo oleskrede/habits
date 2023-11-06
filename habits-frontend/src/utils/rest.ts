@@ -1,7 +1,7 @@
-import { Page } from "../types/Types";
+import { HabitsData } from "../types/Types";
 import { HABITS_API_URL } from "./utils";
 
-export async function fetchPage(id: string): Promise<Page> {
+export async function fetchPage(id: string): Promise<HabitsData> {
   const response = await fetch(`${HABITS_API_URL}/${id}`);
   if (!response.ok) {
     throw new Error(`Network response status was ${response.status}`);
@@ -9,7 +9,7 @@ export async function fetchPage(id: string): Promise<Page> {
   return await response.json();
 }
 
-export async function sendHabitCompleted(pageId: string, habitId: string): Promise<Page> {
+export async function sendHabitCompleted(pageId: string, habitId: string): Promise<HabitsData> {
   const response = await fetchPost(`${HABITS_API_URL}/complete-habit`, { pageId, habitId });
   if (!response.ok) {
     throw new Error(`Network response status was ${response.status}`);
