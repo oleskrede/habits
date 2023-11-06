@@ -6,6 +6,4 @@
 - [ ] Dockerfile
 - [ ] Deploy
 - [ ] Add habit
-- [ ] Complete habit
 - [ ] Remove habit
-- [ ] See past completions
