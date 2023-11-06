@@ -70,6 +70,5 @@ export function Habits({ id }: Props) {
 }
 
 const CompletedLabel = styled.p`
-  margin-top: 2rem;
-  color: grey;
+  margin-top: 4rem;
 `

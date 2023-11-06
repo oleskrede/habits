@@ -15,6 +15,5 @@ export function CompletedHabitRow({ habit }: Props) {
 }
 
 const CompletedHabitDescription = styled.p`
-  color: grey;
   margin-left: 1rem;
 `
