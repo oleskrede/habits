@@ -5,10 +5,8 @@ import styled from "styled-components";
 const IconButtonWrapper = styled.button`
     background-color: transparent;
     border: none;
-    // color: #1D5B79; 
     cursor: pointer;
     &:hover {
-        // color: #468B97; 
         color: darkgrey;
     }
     padding: 0;

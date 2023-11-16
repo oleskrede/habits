@@ -1,7 +1,8 @@
 import { useState } from "preact/hooks"
 import { HabitsData } from "../types/Types"
 import { TargetedEvent } from "preact/compat"
-import { sendCreateHabit } from "../utils/rest"
+import { sendCreateHabit, sendDeleteHabit } from "../utils/rest"
+import { DeletableHabitRow } from "../components/DeletableHabitRow"
 
 type Props = {
   habitsData: HabitsData
@@ -33,6 +34,20 @@ export function Edit({ habitsData, setHabitsData }: Props) {
     setNewHabit('')
   }
 
+  const deleteHabit = async (habitId: string) => {
+    console.log('deleted habit', habitId)
+    sendDeleteHabit(habitsData.id, habitId)
+      .then((data: HabitsData) => {
+        console.log('habitsdata', data)
+        setHabitsData(data);
+      })
+      .catch((error) => {
+        // TODO show a proper error to user, and try to log the incident
+        console.error('Error fetching user data:', error);
+        alert("An error occured. The incident has been reported to the police.")
+      });
+  }
+
   return (
     <div>
       <form style={{ display: 'flex', flexDirection: 'column', marginBottom: '2rem' }} onSubmit={handleSubmit}>
@@ -42,7 +57,7 @@ export function Edit({ habitsData, setHabitsData }: Props) {
 
       {habitsData.habits.map((habit, index) => (
             <div key={index}>
-              <p>[DELETE] {habit.name}</p>
+              <DeletableHabitRow habit={habit} deleteHabit={deleteHabit} />
             </div>
           ))}
     </div>
