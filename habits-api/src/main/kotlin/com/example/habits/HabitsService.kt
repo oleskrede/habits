@@ -12,6 +12,7 @@ class HabitsService(
 
     init {
         runBlocking {
+            // TODO dummy data on new page instead
             val tasks = listOf("Clean", "Read book", "Exercise", "Work on project", "Read email", "Call mom")
             val pageId = Id("VjfvTaWpa0GzaIaa")
             println("random id: $pageId")
@@ -31,6 +32,12 @@ class HabitsService(
     }
 
     suspend fun getPage(pageId: Id): Page {
+        val habits = habitsRepository.getHabits(pageId)
+        return Page(habits, pageId)
+    }
+
+    suspend fun createHabit(pageId: Id, habitName: String): Page {
+        habitsRepository.createHabit(pageId, Habit(name = habitName) )
         val habits = habitsRepository.getHabits(pageId)
         return Page(habits, pageId)
     }

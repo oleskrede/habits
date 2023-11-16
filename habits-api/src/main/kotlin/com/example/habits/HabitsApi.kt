@@ -12,6 +12,11 @@ fun Route.habitsApi(habitsService: HabitsService) {
             call.respondRedirect("/habits/${randomId()}")
         }
 
+        post {
+            val dto = call.receive<CreateHabitDto>()
+            val page = habitsService.createHabit(Id(dto.pageId), dto.habitName)
+            call.respond(page)
+        }
 
         get("/{id}") {
             val id = Id(call.parameters["id"] ?: throw IllegalArgumentException("Invalid ID"))
@@ -31,4 +36,9 @@ fun Route.habitsApi(habitsService: HabitsService) {
 data class CompleteHabitDto(
     val pageId: String,
     val habitId: String,
+)
+
+data class CreateHabitDto(
+    val pageId: String,
+    val habitName: String,
 )

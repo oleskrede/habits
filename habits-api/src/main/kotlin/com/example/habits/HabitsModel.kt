@@ -12,7 +12,7 @@ data class Habit(
     val name: String,
     val lastCompleted: LocalDate? = null,
     val id: Id = randomId(),
-    private val lastStreak: Int,
+    private val lastStreak: Int = 0,
 ) {
     private val completedYesterday = LocalDate.now().minusDays(1) == lastCompleted
 
