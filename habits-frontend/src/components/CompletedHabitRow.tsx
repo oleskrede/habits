@@ -16,5 +16,5 @@ export function CompletedHabitRow({ habit }: Props) {
 }
 
 const CompletedHabitRowWrapper = styled.div`
-  margin-left: 1rem;
+  margin-left: .5rem;
 `

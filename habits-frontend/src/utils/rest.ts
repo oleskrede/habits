@@ -17,6 +17,14 @@ export async function sendHabitCompleted(pageId: string, habitId: string): Promi
   return await response.json();
 }
 
+export async function sendCreateHabit(pageId: string, habitName: string): Promise<HabitsData> {
+  const response = await fetchPost(`${HABITS_API_URL}`, { pageId, habitName });
+  if (!response.ok) {
+    throw new Error(`Network response status was ${response.status}`);
+  }
+  return await response.json();
+}
+
 async function fetchPost(url: string, data?: any): Promise<any> {
   return fetch(url, {
     method: 'POST',

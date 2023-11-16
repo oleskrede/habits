@@ -3,7 +3,7 @@ import { Loader } from './components/Loader';
 import { Navbar } from './components/Navbar';
 import { getIdFromUrlPath, randomId } from './utils/utils';
 import { Page, HabitsData } from './types/Types';
-import { PageSwitcher } from './components/ContentSwitcher';
+import { PageSwitcher } from './pages/ContentSwitcher';
 import { fetchPage } from './utils/rest';
 
 

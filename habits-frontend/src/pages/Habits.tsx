@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { HabitsData } from '../types/Types';
 import { sendHabitCompleted } from '../utils/rest';
-import { CompletedHabitRow } from "./CompletedHabitRow";
-import { UncompletedHabitRow } from './UncompletedHabitRow';
+import { CompletedHabitRow } from "../components/CompletedHabitRow";
+import { UncompletedHabitRow } from '../components/UncompletedHabitRow';
 
 type Props = {
   habitsData: HabitsData
@@ -35,12 +35,16 @@ export function Habits({ habitsData, setHabitsData }: Props) {
           <UncompletedHabitRow habit={habit} completeHabit={completeHabit} />
         </div>
       ))}
-      <CompletedLabel>Completed today:</CompletedLabel>
-      {completed.map((habit, index) => (
-        <div key={index}>
-          <CompletedHabitRow habit={habit} />
-        </div>
-      ))}
+      {completed.length > 0 && (
+        <>
+          <CompletedLabel>Completed today:</CompletedLabel>
+          {completed.map((habit, index) => (
+            <div key={index}>
+              <CompletedHabitRow habit={habit} />
+            </div>
+          ))}
+        </>
+      )}
     </div>
   )
 }

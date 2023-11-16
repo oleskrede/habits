@@ -1,4 +1,5 @@
 import { Page, HabitsData } from '../types/Types';
+import { Edit } from './Edit';
 import { Habits } from './Habits';
 
 type Props = {
@@ -10,7 +11,7 @@ type Props = {
 export function PageSwitcher({ habitsData, setHabitsData, page }: Props) {
 
   if (page == Page.EDIT) {
-    return <p>EDIT</p>
+    return <Edit habitsData={habitsData} setHabitsData={setHabitsData} />
   }
 
   return <Habits habitsData={habitsData} setHabitsData={setHabitsData} />
