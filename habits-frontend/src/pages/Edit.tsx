@@ -1,6 +1,5 @@
 import { useState } from "preact/hooks"
 import { HabitsData } from "../types/Types"
-import { TargetedEvent } from "preact/compat"
 import { sendCreateHabit, sendDeleteHabit } from "../utils/rest"
 import { DeletableHabitRow } from "../components/DeletableHabitRow"
 
@@ -50,7 +49,7 @@ export function Edit({ habitsData, setHabitsData }: Props) {
 
   return (
     <div>
-      <form style={{ display: 'flex', flexDirection: 'column', marginBottom: '2rem' }} onSubmit={handleSubmit}>
+      <form style={{ display: 'flex', flexDirection: 'column', marginBottom: '2rem', gap: '.5rem' }} onSubmit={handleSubmit}>
         <label for="newHabit">Add habit:</label>
         <input type="text" id="newHabit" name="newHabit" value={newHabit} onChange={handleInputChange} />
       </form>
