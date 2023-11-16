@@ -42,6 +42,12 @@ class HabitsService(
         return Page(habits, pageId)
     }
 
+    suspend fun deleteHabit(pageId: Id, habitId: Id): Page {
+        habitsRepository.deleteHabit(pageId, habitId )
+        val habits = habitsRepository.getHabits(pageId)
+        return Page(habits, pageId)
+    }
+
     suspend fun completeHabit(pageId: Id, habitId: Id): Page {
         return newSuspendedTransaction(Dispatchers.IO) {
             val habit = habitsRepository.getHabit(pageId, habitId)

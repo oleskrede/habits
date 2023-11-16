@@ -2,6 +2,7 @@ package com.example.habits
 
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.javatime.date
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -49,6 +50,10 @@ class HabitsRepository(database: Database) {
         DbHabit.select { (DbHabit.pageId eq pageId.value) and (DbHabit.id eq habitId.value) }
             .map { it.toHabit() }
             .single()
+    }
+
+    suspend fun deleteHabit(pageId: Id, habitId: Id): Int = dbQuery {
+        DbHabit.deleteWhere { (DbHabit.pageId eq pageId.value) and (id eq habitId.value) }
     }
 
     suspend fun getHabits(pageId: Id): List<Habit> = dbQuery {

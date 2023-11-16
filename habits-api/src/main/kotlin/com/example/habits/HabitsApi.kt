@@ -24,16 +24,21 @@ fun Route.habitsApi(habitsService: HabitsService) {
             call.respond(page)
         }
 
-        // Complete task
         post("/complete-habit") {
-            val dto = call.receive<CompleteHabitDto>()
+            val dto = call.receive<HabitDto>()
             val page = habitsService.completeHabit(Id(dto.pageId), Id(dto.habitId))
+            call.respond(page)
+        }
+
+        post("/delete-habit") {
+            val dto = call.receive<HabitDto>()
+            val page = habitsService.deleteHabit(Id(dto.pageId), Id(dto.habitId))
             call.respond(page)
         }
     }
 }
 
-data class CompleteHabitDto(
+data class HabitDto(
     val pageId: String,
     val habitId: String,
 )
