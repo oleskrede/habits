@@ -55,7 +55,7 @@ fun Application.localKtorConfig() {
         allowHost("localhost:5173") // Local dev
         allowHost("localhost:4173") // Local preview
         allowHost("localhost:8080") // Local docker
-        allowHost("https://dsk-habits.fly.dev")
+        allowHost("dsk-habits.fly.dev", schemes = listOf("https"))
         allowMethod(HttpMethod.Get)
         allowMethod(HttpMethod.Post)
         allowHeader(HttpHeaders.AcceptEncoding)
