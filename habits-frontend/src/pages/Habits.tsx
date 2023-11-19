@@ -30,6 +30,9 @@ export function Habits({ habitsData, setHabitsData }: Props) {
 
   return (
     <div>
+      {habitsData.habits.length === 0 && (
+        <p>Click 'Edit' to add your first habit.</p>
+      )}
       {uncompleted.map((habit, index) => (
         <div key={index}>
           <UncompletedHabitRow habit={habit} completeHabit={completeHabit} />
