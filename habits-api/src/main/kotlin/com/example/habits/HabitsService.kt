@@ -10,27 +10,6 @@ class HabitsService(
     private val habitsRepository: HabitsRepository
 ) {
 
-    init {
-        runBlocking {
-            // TODO dummy data on new page instead
-            val tasks = listOf("Clean", "Read book", "Exercise", "Work on project", "Read email", "Call mom")
-            val pageId = Id("VjfvTaWpa0GzaIaa")
-            println("random id: $pageId")
-            val habits = tasks
-                .shuffled()
-                .take(3)
-                .map {
-                    Habit(
-                        name = it,
-                        lastCompleted = LocalDate.now().minusDays(1),
-                        lastStreak = (1..10).random()
-                    )
-                }
-            habits.forEach { habitsRepository.createHabit(pageId, it) }
-            habitsRepository.updateHabit(pageId, habits.random().complete())
-        }
-    }
-
     suspend fun getPage(pageId: Id): Page {
         val habits = habitsRepository.getHabits(pageId)
         return Page(habits, pageId)
