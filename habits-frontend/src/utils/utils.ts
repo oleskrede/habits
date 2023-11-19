@@ -1,5 +1,6 @@
 
-export const HABITS_API_URL = 'http://127.0.0.1:8080/habits'
+// export const HABITS_API_URL = 'http://127.0.0.1:8080/habits'
+export const HABITS_API_URL = 'https://dsk-habits.fly.dev/habits'
 
 export function randomId(length: number = 12): string {
     let id = '';
