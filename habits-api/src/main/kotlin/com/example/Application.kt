@@ -12,7 +12,7 @@ import io.ktor.server.resources.*
 import io.ktor.server.routing.*
 
 fun main() {
-    embeddedServer(CIO, port = 8080, module = Application::module)
+    embeddedServer(CIO, port = 8080, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
 }
 
