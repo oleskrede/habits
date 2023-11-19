@@ -52,9 +52,13 @@ fun Application.setupRoutes() {
 fun Application.localKtorConfig() {
     install(CORS) {
         // Allow requests from frontend when running locally
-        allowHost("localhost:5173")
-        allowHost("localhost:4173")
-        allowHost("localhost:8080")
+        allowHost("localhost:5173") // Local dev
+        allowHost("localhost:4173") // Local preview
+        allowHost("localhost:8080") // Local docker
+        allowHost("https://dsk-habits.fly.dev")
+        allowMethod(HttpMethod.Get)
+        allowMethod(HttpMethod.Post)
+        allowHeader(HttpHeaders.AcceptEncoding)
         allowHeader(HttpHeaders.ContentType)
     }
 }
