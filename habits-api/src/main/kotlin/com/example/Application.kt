@@ -2,12 +2,10 @@ package com.example
 
 import com.example.habits.habitsApi
 import com.example.ktor.*
-import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
 import io.ktor.server.engine.*
 import io.ktor.server.http.content.*
-import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.resources.*
 import io.ktor.server.routing.*
 
@@ -26,14 +24,11 @@ fun Application.configureKtor() {
     configureSerialization()
     configureMonitoring()
     configureHTTP()
+    configureCORS()
     configureSecurity()
 
     install(IgnoreTrailingSlash)
-    install(Resources)
-
-    if (isLocal()) {
-        localKtorConfig()
-    }
+    install(Resources) // TODO not needed?
 }
 
 fun Application.setupRoutes() {
@@ -49,16 +44,3 @@ fun Application.setupRoutes() {
     }
 }
 
-fun Application.localKtorConfig() {
-    install(CORS) {
-        // Allow requests from frontend when running locally
-        allowHost("localhost:5173") // Local dev
-        allowHost("localhost:4173") // Local preview
-        allowHost("localhost:8080") // Local docker
-        allowHost("dsk-habits.fly.dev", schemes = listOf("https"))
-        allowMethod(HttpMethod.Get)
-        allowMethod(HttpMethod.Post)
-        allowHeader(HttpHeaders.AcceptEncoding)
-        allowHeader(HttpHeaders.ContentType)
-    }
-}

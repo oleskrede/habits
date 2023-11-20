@@ -4,7 +4,7 @@ enum class Profile {
     LOCAL, PROD
 }
 
-val profile by lazy { Profile.valueOf(readOrNull("PROFILE") ?: "LOCAL") }
+val profile by lazy { Profile.valueOf(read("PROFILE") ?: "LOCAL") }
 
 fun isLocal() = profile == Profile.LOCAL
 

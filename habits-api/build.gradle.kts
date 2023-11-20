@@ -26,14 +26,23 @@ repositories {
 }
 
 dependencies {
-    implementation("io.ktor:ktor-server-core-jvm")
-    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
-    implementation("io.ktor:ktor-server-content-negotiation-jvm")
-    implementation("io.ktor:ktor-server-cors")
+    // DB
+    implementation("org.postgresql:postgresql:42.6.0")
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
     implementation("com.h2database:h2:$h2_version")
+
+    // Jackson
+    val jacksonVersion = "2.14.2"
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
+
+    // Ktor
+    implementation("io.ktor:ktor-server-core-jvm")
+    implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm")
+    implementation("io.ktor:ktor-server-cors")
     implementation("io.ktor:ktor-serialization-jackson-jvm")
     implementation("io.ktor:ktor-server-call-logging-jvm")
     implementation("io.ktor:ktor-server-call-id-jvm")
@@ -45,13 +54,11 @@ dependencies {
     implementation("io.ktor:ktor-server-auth-jvm")
     implementation("io.ktor:ktor-server-sessions-jvm")
     implementation("io.ktor:ktor-server-cio-jvm")
+
+    // Logging
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
-    // Jackson
-    val jacksonVersion = "2.14.2"
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion")
-
+    // Test
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }
