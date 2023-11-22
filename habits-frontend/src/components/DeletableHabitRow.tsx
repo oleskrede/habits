@@ -1,4 +1,4 @@
-import { TrashIcon } from '@heroicons/react/24/outline';
+import { TrashIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { Habit } from '../types/Types';
 import { IconButton } from './IconButton';
 import { HabitRow } from './HabitRow';
@@ -13,7 +13,7 @@ export function DeletableHabitRow({ habit, deleteHabit }: Props) {
   return (
     <div style={{ display: "flex", alignItems: "center" }}>
       <IconButton
-        icon={<TrashIcon />}
+        icon={<XCircleIcon />}
         onClick={() => deleteHabit(habit.id)}
       />
       <HabitRow habit={habit}/>
