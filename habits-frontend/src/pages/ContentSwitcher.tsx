@@ -1,10 +1,11 @@
+import { StateUpdater } from 'preact/hooks';
 import { Page, HabitsData } from '../types/Types';
 import { Edit } from './Edit';
 import { Habits } from './Habits';
 
 type Props = {
   habitsData: HabitsData
-  setHabitsData: (habitsData: HabitsData) => void
+  setHabitsData: StateUpdater<HabitsData>
   page: Page
 }
 

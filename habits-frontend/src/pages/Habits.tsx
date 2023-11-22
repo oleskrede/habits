@@ -3,10 +3,11 @@ import { HabitsData } from '../types/Types';
 import { sendHabitCompleted } from '../utils/rest';
 import { CompletedHabitRow } from "../components/CompletedHabitRow";
 import { UncompletedHabitRow } from '../components/UncompletedHabitRow';
+import { StateUpdater } from "preact/hooks";
 
 type Props = {
   habitsData: HabitsData
-  setHabitsData: (habitsData: HabitsData) => void
+  setHabitsData: StateUpdater<HabitsData>
 }
 
 export function Habits({ habitsData, setHabitsData }: Props) {
@@ -16,6 +17,20 @@ export function Habits({ habitsData, setHabitsData }: Props) {
 
   const completeHabit = async (habitId: string) => {
     console.log('completed habit', habitId)
+
+    // Optimistically complete the habit for responsiveness. Later update with truth from response
+    setHabitsData((prev) => ({
+      ...prev,
+      habits: prev.habits.map(habit => {
+        if (habit.id === habitId) {
+          habit.completedToday = true
+          habit.currentStreak = habit.currentStreak + 1
+          return habit
+        }
+        return habit
+      })
+    }))
+
     sendHabitCompleted(habitsData.id, habitId)
       .then((data: HabitsData) => {
         console.log('habitsdata', data)

@@ -10,13 +10,14 @@ import { fetchPage } from './utils/rest';
 export function App() {
 
   const [content, setContent] = useState(Page.MAIN)
-  const [habitsData, setHabitsData] = useState<HabitsData | undefined>(undefined)
 
   const id = getIdFromUrlPath()
   if (id === "") {
     window.location.href = `/${randomId()}`
     return <Loader />
   }
+
+  const [habitsData, setHabitsData] = useState<HabitsData>({ id, habits: [] })
 
   useEffect(() => {
     fetchPage(id)
@@ -36,7 +37,7 @@ export function App() {
   return (
     <div>
       <Navbar setContent={setContent} />
-      <PageSwitcher habitsData={habitsData} setHabitsData={setHabitsData} page={content} /> 
+      <PageSwitcher habitsData={habitsData} setHabitsData={setHabitsData} page={content} />
     </div>
   )
 

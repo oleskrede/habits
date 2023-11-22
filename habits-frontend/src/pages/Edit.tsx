@@ -1,11 +1,11 @@
-import { useState } from "preact/hooks"
+import { StateUpdater, useState } from "preact/hooks"
 import { HabitsData } from "../types/Types"
 import { sendCreateHabit, sendDeleteHabit } from "../utils/rest"
 import { DeletableHabitRow } from "../components/DeletableHabitRow"
 
 type Props = {
   habitsData: HabitsData
-  setHabitsData: (habitsData: HabitsData) => void
+  setHabitsData: StateUpdater<HabitsData>
 }
 
 export function Edit({ habitsData, setHabitsData }: Props) {
@@ -19,6 +19,22 @@ export function Edit({ habitsData, setHabitsData }: Props) {
   const handleSubmit = (event: any) => {
     event.preventDefault()
     console.log('submitted with data:', newHabit)
+    
+    // Optimistically add new habit for responsiveness. Later update with truth from response
+    setHabitsData((prev) => ({
+      ...prev,
+      habits: [
+        ...prev.habits,
+        {
+          id: "temp",
+          name: "newHabit",
+          currentStreak: 0,
+          lastCompleted: undefined,
+          completedToday: false
+        }
+      ]
+    }))
+
     sendCreateHabit(habitsData.id, newHabit)
       .then((data: HabitsData) => {
         console.log('habitsdata', data)
@@ -35,6 +51,13 @@ export function Edit({ habitsData, setHabitsData }: Props) {
 
   const deleteHabit = async (habitId: string) => {
     console.log('deleted habit', habitId)
+
+    // Optimistically delete habit for responsiveness. Later update with truth from response
+    setHabitsData((prev) => ({
+      ...prev,
+      habits: prev.habits.filter((habit) => habit.id !== habitId)
+    }))
+
     sendDeleteHabit(habitsData.id, habitId)
       .then((data: HabitsData) => {
         console.log('habitsdata', data)
@@ -55,10 +78,10 @@ export function Edit({ habitsData, setHabitsData }: Props) {
       </form>
 
       {habitsData.habits.map((habit, index) => (
-            <div key={index}>
-              <DeletableHabitRow habit={habit} deleteHabit={deleteHabit} />
-            </div>
-          ))}
+        <div key={index}>
+          <DeletableHabitRow habit={habit} deleteHabit={deleteHabit} />
+        </div>
+      ))}
     </div>
   )
 }
