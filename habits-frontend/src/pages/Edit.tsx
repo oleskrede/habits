@@ -19,7 +19,7 @@ export function Edit({ habitsData, setHabitsData }: Props) {
   const handleSubmit = (event: any) => {
     event.preventDefault()
     console.log('submitted with data:', newHabit)
-    
+
     // Optimistically add new habit for responsiveness. Later update with truth from response
     setHabitsData((prev) => ({
       ...prev,
@@ -27,7 +27,7 @@ export function Edit({ habitsData, setHabitsData }: Props) {
         ...prev.habits,
         {
           id: "temp",
-          name: "newHabit",
+          name: newHabit,
           currentStreak: 0,
           lastCompleted: undefined,
           completedToday: false
