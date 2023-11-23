@@ -18,8 +18,10 @@ export function App() {
   }
 
   const [habitsData, setHabitsData] = useState<HabitsData>({ id, habits: [] })
+  const [isFetchingData, setIsFetchingData] = useState(false)
 
   useEffect(() => {
+    setIsFetchingData(true)
     fetchPage(id)
       .then((data: HabitsData) => {
         setHabitsData(data);
@@ -27,10 +29,13 @@ export function App() {
       .catch((error) => {
         // TODO show error to user, and try to log the incident
         console.error('Error fetching user data:', error);
+      })
+      .finally(() => {
+        setIsFetchingData(false)
       });
   }, []);
 
-  if (!habitsData) {
+  if (isFetchingData) {
     return <Loader />
   }
 
