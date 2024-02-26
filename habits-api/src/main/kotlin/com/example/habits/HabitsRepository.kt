@@ -9,11 +9,12 @@ import org.jetbrains.exposed.sql.transactions.transaction
 
 class HabitsRepository(database: Database) {
 
-    object DbHabit : Table() {
-        val id = varchar("id", length = idMaxLength)
+    object DbHabit2 : Table() {
         val pageId = varchar("page_id", length = idMaxLength)
+        val id = varchar("id", length = idMaxLength)
         val name = varchar("name", length = 60)
-        val currentStreak = integer("current_streak")
+        val monthlyStreak = integer("monthly_streak")
+        val yearlyStreak = integer("yearly_streak")
         val lastCompleted = date("last_completed").nullable()
 
         override val primaryKey = PrimaryKey(pageId, id)
@@ -21,7 +22,7 @@ class HabitsRepository(database: Database) {
 
     init {
         transaction(database) {
-            SchemaUtils.create(DbHabit)
+            SchemaUtils.create(DbHabit2)
         }
     }
 
@@ -29,42 +30,45 @@ class HabitsRepository(database: Database) {
         newSuspendedTransaction(Dispatchers.IO) { block() }
 
     suspend fun createHabit(pageIdParam: Id, habit: Habit): String = dbQuery {
-        DbHabit.insert {
+        DbHabit2.insert {
             it[pageId] = pageIdParam.value
             it[id] = habit.id.value
             it[name] = habit.name
-            it[currentStreak] = habit.currentStreak
+            it[monthlyStreak] = habit.monthlyStreak
+            it[yearlyStreak] = habit.yearlyStreak
             it[lastCompleted] = habit.lastCompleted
-        }[DbHabit.id]
+        }[DbHabit2.id]
     }
 
     suspend fun updateHabit(pageIdParam: Id, habit: Habit): Int = dbQuery {
-        DbHabit.update({ (DbHabit.pageId eq pageIdParam.value) and (DbHabit.id eq habit.id.value) }) {
+        DbHabit2.update({ (DbHabit2.pageId eq pageIdParam.value) and (DbHabit2.id eq habit.id.value) }) {
             it[name] = habit.name
-            it[currentStreak] = habit.currentStreak
+            it[monthlyStreak] = habit.monthlyStreak
+            it[yearlyStreak] = habit.yearlyStreak
             it[lastCompleted] = habit.lastCompleted
         }
     }
 
     suspend fun getHabit(pageId: Id, habitId: Id): Habit = dbQuery {
-        DbHabit.select { (DbHabit.pageId eq pageId.value) and (DbHabit.id eq habitId.value) }
+        DbHabit2.select { (DbHabit2.pageId eq pageId.value) and (DbHabit2.id eq habitId.value) }
             .map { it.toHabit() }
             .single()
     }
 
     suspend fun deleteHabit(pageId: Id, habitId: Id): Int = dbQuery {
-        DbHabit.deleteWhere { (DbHabit.pageId eq pageId.value) and (id eq habitId.value) }
+        DbHabit2.deleteWhere { (DbHabit2.pageId eq pageId.value) and (id eq habitId.value) }
     }
 
     suspend fun getHabits(pageId: Id): List<Habit> = dbQuery {
-        DbHabit.select { DbHabit.pageId eq pageId.value }
+        DbHabit2.select { DbHabit2.pageId eq pageId.value }
             .map { it.toHabit() }
     }
 }
 
 private fun ResultRow.toHabit() = Habit(
-    id = Id(this[HabitsRepository.DbHabit.id]),
-    name = this[HabitsRepository.DbHabit.name],
-    lastStreak = this[HabitsRepository.DbHabit.currentStreak],
-    lastCompleted = this[HabitsRepository.DbHabit.lastCompleted],
+    id = Id(this[HabitsRepository.DbHabit2.id]),
+    name = this[HabitsRepository.DbHabit2.name],
+    lastMonthlyStreak = this[HabitsRepository.DbHabit2.monthlyStreak],
+    lastYearlyStreak = this[HabitsRepository.DbHabit2.yearlyStreak],
+    lastCompleted = this[HabitsRepository.DbHabit2.lastCompleted],
 )

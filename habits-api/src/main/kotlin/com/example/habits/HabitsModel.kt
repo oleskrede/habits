@@ -12,17 +12,36 @@ data class Habit(
     val name: String,
     val lastCompleted: LocalDate? = null,
     val id: Id = randomId(),
-    private val lastStreak: Int = 0,
+    private val lastMonthlyStreak: Int = 0,
+    private val lastYearlyStreak: Int = 0,
 ) {
     private val completedYesterday = LocalDate.now().minusDays(1) == lastCompleted
 
     val completedToday = LocalDate.now() == lastCompleted
-    val currentStreak: Int = if (completedToday || completedYesterday) lastStreak else 0
+    val monthlyStreak = calculateMonthlyStreak()
+    val yearlyStreak =calculateYearlyStreak()
 
     fun complete(): Habit {
         if (completedToday) return this
+        return this.copy(
+            lastCompleted = LocalDate.now(),
+            lastMonthlyStreak = monthlyStreak + 1,
+            lastYearlyStreak = yearlyStreak + 1
+        )
+    }
 
-        return this.copy(lastCompleted = LocalDate.now(), lastStreak = currentStreak + 1)
+    private fun calculateMonthlyStreak() = when {
+        lastCompleted == null -> 0
+        lastCompleted.month != LocalDate.now().month -> 0
+        completedToday || completedYesterday -> lastMonthlyStreak
+        else -> 0
+    }
+
+    private fun calculateYearlyStreak() = when {
+        lastCompleted == null -> 0
+        lastCompleted.year != LocalDate.now().year -> 0
+        completedToday || completedYesterday -> lastYearlyStreak
+        else -> 0
     }
 }
 
