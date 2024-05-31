@@ -5,12 +5,11 @@ import com.example.habits.HabitsRepository
 import org.jetbrains.exposed.sql.Database
 
 class Context {
-    private val config = loadConfig()
     private val database = Database.connect(
-        url = config.dbUrl,
-        user = config.dbUser,
-        driver = config.dbDriver,
-        password = config.dbPassword,
+        url = Config.dbUrl,
+        user = Config.dbUser,
+        driver = Config.dbDriver,
+        password = Config.dbPassword,
     )
 
     val habitsRepository = HabitsRepository(database)
