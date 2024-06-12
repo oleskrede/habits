@@ -1,10 +1,12 @@
 package com.example.habits
 
+import io.github.oshai.kotlinlogging.KotlinLogging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.time.LocalDate
 
+private val logger = KotlinLogging.logger {}
 
 class HabitsService(
     private val habitsRepository: HabitsRepository
@@ -16,13 +18,13 @@ class HabitsService(
     }
 
     suspend fun createHabit(pageId: Id, habitName: String): Page {
-        habitsRepository.createHabit(pageId, Habit(name = habitName) )
+        habitsRepository.createHabit(pageId, Habit(name = habitName))
         val habits = habitsRepository.getHabits(pageId)
         return Page(habits, pageId)
     }
 
     suspend fun deleteHabit(pageId: Id, habitId: Id): Page {
-        habitsRepository.deleteHabit(pageId, habitId )
+        habitsRepository.deleteHabit(pageId, habitId)
         val habits = habitsRepository.getHabits(pageId)
         return Page(habits, pageId)
     }
@@ -33,8 +35,7 @@ class HabitsService(
             val completedHabit = habit.complete()
             val updated = habitsRepository.updateHabit(pageId, completedHabit)
             if (updated != 1) {
-                // TODO use logger
-                println("Unexpected number of updates: $updated")
+                logger.error { "Unexpected number of updates: $updated, pageId $pageId, habitId $habitId" }
             }
             getPage(pageId)
         }

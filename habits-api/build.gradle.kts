@@ -48,6 +48,7 @@ dependencies {
 
     // Logging
     implementation("ch.qos.logback:logback-classic:1.5.6")
+    implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
 
     // Test
     testImplementation("io.ktor:ktor-server-tests-jvm")
