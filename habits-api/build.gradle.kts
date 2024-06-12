@@ -21,7 +21,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
     implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
-    implementation("org.postgresql:postgresql:42.6.0")
+    implementation("org.postgresql:postgresql:42.7.3")
     implementation("com.h2database:h2:2.1.214")
 
     // Jackson
@@ -47,7 +47,7 @@ dependencies {
     implementation("io.ktor:ktor-server-cio-jvm")
 
     // Logging
-    implementation("ch.qos.logback:logback-classic:1.4.11")
+    implementation("ch.qos.logback:logback-classic:1.5.6")
 
     // Test
     testImplementation("io.ktor:ktor-server-tests-jvm")
