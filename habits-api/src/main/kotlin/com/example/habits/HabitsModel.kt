@@ -14,16 +14,16 @@ data class Habit(
     val id: Id = randomId(),
     private val lastStreak: Int = 0,
 ) {
+    // These are used in frontend. TODO: Create a HabitDto to enforce contract
     val currentStreak = updatedStreak()
+    val completedToday = LocalDate.now() == lastCompleted
 
     fun complete(): Habit {
-        if (hasBeenCompletedToday()) {
+        if (completedToday) {
             return this
         }
         return this.copy(lastCompleted = LocalDate.now(), lastStreak = currentStreak + 1)
     }
-
-    private fun hasBeenCompletedToday() = LocalDate.now() == lastCompleted
 
     private fun updatedStreak(): Int {
         val now = LocalDate.now()
