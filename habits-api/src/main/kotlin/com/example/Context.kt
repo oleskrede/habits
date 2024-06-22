@@ -12,6 +12,6 @@ class Context {
         password = Config.dbPassword,
     )
 
-    val habitsRepository = HabitsRepository(database)
+    private val habitsRepository = HabitsRepository(database)
     val habitsService = HabitsService(habitsRepository)
 }

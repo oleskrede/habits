@@ -14,15 +14,21 @@ data class Habit(
     val id: Id = randomId(),
     private val lastStreak: Int = 0,
 ) {
-    private val completedYesterday = LocalDate.now().minusDays(1) == lastCompleted
-
-    val completedToday = LocalDate.now() == lastCompleted
-    val currentStreak: Int = if (completedToday || completedYesterday) lastStreak else 0
+    val currentStreak = updatedStreak()
 
     fun complete(): Habit {
-        if (completedToday) return this
-
+        if (hasBeenCompletedToday()) {
+            return this
+        }
         return this.copy(lastCompleted = LocalDate.now(), lastStreak = currentStreak + 1)
+    }
+
+    private fun hasBeenCompletedToday() = LocalDate.now() == lastCompleted
+
+    private fun updatedStreak(): Int {
+        val now = LocalDate.now()
+        val lastCompletedThisMonth = now.year == lastCompleted?.year && now.month == lastCompleted.month
+        return if (lastCompletedThisMonth) lastStreak else 0
     }
 }
 
